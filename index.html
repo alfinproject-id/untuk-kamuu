@@ -1,0 +1,1249 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b49">
+  <title>Untuk Kamu, Rumah Hatiku ♡</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. VARIABLES & RESET
+       ========================================================================== */
+    :root {
+      --sea: #102b49;
+      --sea2: #1c496b;
+      --mist: #bce8f4;
+      --foam: #f5fbfa;
+      --ink: #25465b;
+      --muted: #8ba6b4;
+      --peach: #ffc6bd;
+      --gold: #f4dfb0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--foam);
+      background-color: var(--sea);
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: 0;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--mist);
+      outline-offset: 4px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==========================================================================
+       2. INTRO OVERLAY
+       ========================================================================== */
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      text-align: center;
+      background: linear-gradient(180deg, #0e263f 0%, #17415d 55%, #b4dce4 160%);
+      transition: opacity 0.8s, visibility 0.8s;
+      overflow: hidden;
+    }
+
+    #intro::before,
+    #intro::after {
+      content: "";
+      position: absolute;
+      border: 1px solid #d7f6ff25;
+      border-radius: 50%;
+      width: 75vw;
+      height: 75vw;
+      max-width: 600px;
+      max-height: 600px;
+      pointer-events: none;
+    }
+
+    #intro::after {
+      width: 105vw;
+      height: 105vw;
+      max-width: 800px;
+      max-height: 800px;
+    }
+
+    #intro.dismiss {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-inner {
+      position: relative;
+      z-index: 1;
+      width: min(370px, 100%);
+    }
+
+    .intro-kicker {
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: #c5f1f7;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+
+    .sealed-letter {
+      width: 180px;
+      height: 130px;
+      position: relative;
+      margin: 0 auto 29px;
+      filter: drop-shadow(0 20px 24px #06172950);
+      animation: drift 3.2s ease-in-out infinite;
+      cursor: pointer;
+      transform-origin: center;
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    .letter-base {
+      position: absolute;
+      inset: 0;
+      background: #f8e9d9;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .letter-base::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #e6cdbb;
+      clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .letter-flap {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #fff3e5, #e8c6b9);
+      clip-path: polygon(0 0, 100% 0, 50% 65%);
+      transform-origin: top center;
+      transition: transform 0.65s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .wax {
+      position: absolute;
+      left: calc(50% - 20px);
+      top: 58px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #c56e78;
+      color: #fff4e8;
+      display: grid;
+      place-items: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      box-shadow: 0 4px 12px #84465345;
+      transition: opacity 0.35s ease, transform 0.45s ease;
+    }
+
+    .intro-inner h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: clamp(31px, 8vw, 39px);
+      line-height: 1.15;
+      color: #fff4e9;
+    }
+
+    .intro-inner h1 em {
+      color: var(--mist);
+    }
+
+    .intro-inner p {
+      margin: 14px auto 0;
+      max-width: 290px;
+      color: #d0e7eb;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .open-letter {
+      margin-top: 24px;
+      padding: 13px 22px;
+      border-radius: 40px;
+      background: #f8e9d9;
+      color: #28465a;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 7px 25px #06172928;
+      transition: transform 0.2s;
+    }
+
+    .open-letter:active {
+      transform: scale(0.96);
+    }
+
+    .intro-foot {
+      font-size: 10px;
+      color: #b9dce4;
+      margin-top: 16px;
+      letter-spacing: 1px;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-9px) rotate(2deg); }
+    }
+
+    /* ANIMASI PEMBUKAAN SURAT */
+    #intro.opening .letter-flap {
+      transform: rotateX(180deg);
+    }
+
+    #intro.opening .wax {
+      opacity: 0;
+      transform: scale(1.7) rotate(25deg);
+    }
+
+    #intro.opening .sealed-letter {
+      animation: letterOpen 0.85s ease forwards;
+    }
+
+    #intro.opening .intro-kicker,
+    #intro.opening .intro-inner h1,
+    #intro.opening .intro-inner p,
+    #intro.opening .open-letter,
+    #intro.opening .intro-foot {
+      animation: introTextOut 0.55s ease forwards;
+    }
+
+    @keyframes letterOpen {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      45% {
+        transform: translateY(-16px) scale(1.08);
+      }
+      100% {
+        transform: translateY(-35px) scale(0.72);
+        opacity: 0;
+      }
+    }
+
+    @keyframes introTextOut {
+      to {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+    }
+
+    /* ==========================================================================
+       3. MAIN CONTENT LAYOUT
+       ========================================================================== */
+    #main {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1s;
+      background: linear-gradient(180deg, #102b49 0%, #1d4a68 40%, #e3f0eb 100%);
+      color: #f8fbf7;
+    }
+
+    #main.visible {
+      opacity: 1;
+    }
+
+    /* ANIMASI TAMPILAN ELEMEN HALAMAN UTAMA */
+    #main.visible .nav {
+      animation: revealUp 0.8s 0.1s both;
+    }
+
+    #main.visible .hero {
+      animation: revealUp 0.9s 0.2s both;
+    }
+
+    #main.visible .photo-stage {
+      animation: revealUp 0.9s 0.35s both;
+    }
+
+    #main.visible .journal {
+      animation: revealUp 0.9s 0.5s both;
+    }
+
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .sky-glow {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 570px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 10%, #6aaec455, transparent 60%),
+                  linear-gradient(180deg, #0c223c00, #1a466000);
+    }
+
+    /* Navbar */
+    .nav {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: min(900px, 100%);
+      margin: auto;
+      padding: 23px 22px;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: #d6f4f4;
+    }
+
+    .music-btn {
+      padding: 9px 12px;
+      border-radius: 30px;
+      border: 1px solid #d7f8f540;
+      background: #ffffff0c;
+      color: #e4f6f3;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .music-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--peach);
+      box-shadow: 0 0 10px var(--peach);
+    }
+
+    .music-btn.paused .music-dot {
+      background: #809ca8;
+      box-shadow: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: min(760px, 94%);
+      margin: 30px auto 0;
+      padding: 15px 18px 0;
+    }
+
+    .overline {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: #c7eff0;
+      font-weight: 700;
+    }
+
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 10vw, 78px);
+      font-weight: 500;
+      line-height: 1.05;
+      margin: 19px 0 16px;
+      letter-spacing: -1.7px;
+    }
+
+    .hero h2 em {
+      display: block;
+      color: var(--mist);
+      font-weight: 500;
+    }
+
+    .hero-copy {
+      max-width: 410px;
+      margin: 0 auto;
+      color: #d0e3e6;
+      font-size: 13px;
+      line-height: 1.95;
+      white-space: pre-line;
+    }
+
+    .hero-sign {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 24px auto 0;
+      color: #f3d5c8;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    .hero-sign::before,
+    .hero-sign::after {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: #f3d5c877;
+    }
+
+    /* Photo Stage Section */
+    .photo-stage {
+      position: relative;
+      width: min(490px, 94%);
+      height: 330px;
+      margin: 10px auto 0;
+      z-index: 2;
+    }
+
+    .photo {
+      position: absolute;
+      padding: 7px 7px 28px;
+      background: #fffaf0;
+      box-shadow: 0 18px 45px #061b2a55;
+      color: #426072;
+      transition: transform 0.35s;
+      cursor: zoom-in;
+    }
+
+    .photo:focus-visible {
+      outline: 3px solid #bce8f4;
+      outline-offset: 4px;
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #d8e8e7;
+      cursor: zoom-in;
+    }
+
+    .photo label {
+      position: absolute;
+      bottom: 7px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 11px;
+      color: #496477;
+    }
+
+    .photo.a {
+      width: 150px;
+      height: 190px;
+      left: calc(50% - 155px);
+      top: 45px;
+      transform: rotate(-12deg);
+      z-index: 1;
+    }
+
+    .photo.b {
+      width: 160px;
+      height: 205px;
+      left: calc(50% - 5px);
+      top: 22px;
+      transform: rotate(9deg);
+      z-index: 2;
+    }
+
+    .photo.c {
+      width: 124px;
+      height: 157px;
+      left: calc(50% - 62px);
+      top: 135px;
+      transform: rotate(-2deg);
+      z-index: 3;
+    }
+
+    .photo.d {
+      display: none;
+    }
+
+    .photo-stage::after {
+      content: "our little universe";
+      position: absolute;
+      bottom: 3px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #d7f0eea8;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 1px;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    /* Journal Section */
+    .journal {
+      position: relative;
+      z-index: 4;
+      width: min(590px, 92%);
+      margin: 0 auto 0;
+      padding: 28px 22px 30px;
+      background: #f5f7f0;
+      color: #28465a;
+      border-radius: 28px 28px 0 0;
+      box-shadow: 0 -10px 50px #061b2a14;
+    }
+
+    .journal-head {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .journal-head .tiny {
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: #8ca7ad;
+      font-weight: 700;
+    }
+
+    .journal-head h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 500;
+      margin: 9px 0 7px;
+      color: #24485d;
+    }
+
+    .journal-head p {
+      font-size: 11px;
+      line-height: 1.7;
+      color: #7b969f;
+    }
+
+    .chapters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .chapter {
+      position: relative;
+      min-height: 115px;
+      border-radius: 17px;
+      padding: 15px 13px;
+      text-align: left;
+      color: #27475b;
+      background: #fffefa;
+      border: 1px solid #e1ebe5;
+      box-shadow: 0 5px 15px #35566b0a;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .chapter:active {
+      transform: scale(0.98);
+      background: #eaf7f7;
+    }
+
+    .chapter .num {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #9bb3b5;
+      font-weight: 700;
+    }
+
+    .chapter .emoji {
+      display: block;
+      font-size: 23px;
+      margin: 8px 0 6px;
+    }
+
+    .chapter strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .chapter small {
+      display: block;
+      color: #8aa0a6;
+      font-size: 10px;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    .final-note {
+      margin-top: 18px;
+      padding: 17px;
+      border-radius: 16px;
+      background: #e5f0ed;
+      text-align: center;
+      color: #6e8d94;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .page-footer {
+      text-align: center;
+      padding: 24px 10px 6px;
+      color: #8ca4a6;
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    /* ==========================================================================
+       4. MODAL DIALOG
+       ========================================================================== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #081b2bd9;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .modal.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      position: relative;
+      width: min(430px, 100%);
+      max-height: 84vh;
+      overflow-y: auto;
+      padding: 28px 24px 25px;
+      background: #f7f7ef;
+      color: #28465a;
+      border-radius: 24px 24px 24px 5px;
+      box-shadow: 0 25px 80px #0005;
+      transform: translateY(15px) scale(0.98);
+      transition: transform 0.3s;
+    }
+
+    .modal.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      color: #8aa4a7;
+      font-size: 9px;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .modal-heart {
+      font-size: 19px;
+      color: #c77c83;
+    }
+
+    .modal-emoji {
+      font-size: 31px;
+      margin-bottom: 10px;
+    }
+
+    .modal-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: 29px;
+      line-height: 1.2;
+      color: #24485d;
+      margin-bottom: 16px;
+    }
+
+    .modal-card p {
+      font-size: 12px;
+      line-height: 2;
+      color: #617d88;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    .modal-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 23px;
+      padding-top: 15px;
+      border-top: 1px solid #dfe8e2;
+    }
+
+    .modal-bottom span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: #9bb4b3;
+    }
+
+    .close-btn {
+      padding: 11px 17px;
+      border-radius: 30px;
+      background: #d9edf0;
+      color: #31566a;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* LIGHTBOX FOTO DENGAN CAPTION DI DALAM BINGKAI PUTIH */
+    .photo-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: #081b2bf0;
+      backdrop-filter: blur(9px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+
+    .photo-lightbox.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .photo-lightbox-inner {
+      position: relative;
+      width: min(380px, 100%);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 12px 12px 0;
+      overflow: hidden;
+      background: #fffaf0;
+      border-radius: 5px;
+      box-shadow: 0 20px 70px #0008;
+      transform: scale(0.94);
+      transition: transform 0.25s;
+    }
+
+    .photo-lightbox.open .photo-lightbox-inner {
+      transform: scale(1);
+    }
+
+    .photo-lightbox img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      max-height: 68vh;
+      height: auto;
+      object-fit: contain;
+      border: 0;
+      border-radius: 3px;
+      box-shadow: none;
+      background: #e8eeee;
+    }
+
+    .photo-lightbox-caption {
+      width: 100%;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px 15px;
+      background: #fffaf0;
+      color: #496477;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .photo-lightbox-close {
+      position: absolute;
+      top: -14px;
+      right: -10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f8e9d9;
+      color: #28465a;
+      font-size: 24px;
+      line-height: 1;
+      box-shadow: 0 4px 18px #0004;
+      z-index: 2;
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -25px;
+      z-index: 80;
+      pointer-events: none;
+      animation: rise linear forwards;
+      color: #f6d3c8;
+    }
+
+    @keyframes rise {
+      to {
+        transform: translateY(-110vh) rotate(30deg);
+        opacity: 0;
+      }
+    }
+
+    /* ==========================================================================
+       5. MEDIA QUERIES & RESPONSIVENESS
+       ========================================================================== */
+    @media (max-width: 600px) {
+      .nav { padding: 18px 16px; }
+      .brand { font-size: 15px; }
+      .hero { margin-top: 26px; padding: 12px 10px 0; }
+      .hero h2 { font-size: clamp(42px, 11vw, 62px); }
+      .hero-copy { font-size: 12px; max-width: 315px; }
+      
+      .photo-stage { height: 280px; margin-top: 10px; }
+      .photo.a { width: 118px; height: 157px; left: calc(50% - 125px); top: 38px; }
+      .photo.b { width: 125px; height: 165px; left: calc(50% - 2px); top: 19px; }
+      .photo.c { width: 100px; height: 130px; left: calc(50% - 48px); top: 118px; }
+      
+      .journal { padding: 25px 16px 25px; border-radius: 24px 24px 0 0; }
+      .journal-head h3 { font-size: 25px; }
+      .chapters { gap: 8px; }
+      .chapter { padding: 12px 10px; min-height: 115px; }
+      .chapter strong { font-size: 15px; }
+      .chapter small { font-size: 9px; }
+      .final-note { font-size: 13px; }
+      
+      .modal-card { padding: 24px 18px 20px; }
+      .modal-card h4 { font-size: 26px; }
+      .modal-card p { font-size: 11px; line-height: 1.9; }
+      
+      .photo-lightbox { padding: 18px; }
+      .photo-lightbox img { max-height: 66vh; }
+      .photo-lightbox-caption { font-size: 15px; }
+    }
+
+    @media (max-width: 360px) {
+      .photo-stage { height: 250px; }
+      .photo.a { width: 104px; height: 142px; left: calc(50% - 110px); }
+      .photo.b { width: 110px; height: 150px; left: calc(50% - 3px); }
+      .photo.c { width: 86px; height: 115px; left: calc(50% - 42px); top: 105px; }
+      .chapters { grid-template-columns: 1fr; }
+      .chapter { min-height: 95px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #intro.opening *,
+      #main.visible .nav,
+      #main.visible .hero,
+      #main.visible .photo-stage,
+      #main.visible .journal,
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO SECTION -->
+  <section id="intro">
+    <div class="intro-inner">
+      <div class="intro-kicker">A LETTER FROM SOMEONE WHO LOVES YOU</div>
+      
+      <button class="sealed-letter" id="openBtn" aria-label="Buka surat cinta">
+        <span class="letter-base"></span>
+        <span class="letter-flap"></span>
+        <span class="wax">♡</span>
+      </button>
+
+      <h1>For you,<br><em>my favorite person.</em></h1>
+      <p>Ada sesuatu yang pengin aku kasih ke kamu.<br>Pelan-pelan dibukanya, ya. Ini dari hati aku. ♡</p>
+      
+      <button class="open-letter" id="openTextBtn">BUKA SURATNYA ♡</button>
+      <div class="intro-foot">dibuat khusus untuk cowok kesayanganku</div>
+    </div>
+  </section>
+
+  <!-- AUDIO PLAYER -->
+  <audio id="music" src="https://c.termai.cc/a167/qCpFqD.mp3" loop preload="auto"></audio>
+
+  <!-- MAIN CONTAINER -->
+  <main id="main" class="hidden">
+    <div class="sky-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="brand">a little place for <span style="color:#fff">you</span> ♡</div>
+      <button class="music-btn" id="musicBtn">
+        <span class="music-dot"></span>
+        <span id="musicLabel">MUSIK MENYALA</span>
+      </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="overline">HARI INI, SEMUA DOA BAIK UNTUKMU</div>
+      <h2>Happy Birthday, <em id="personName">sayangku.</em></h2>
+      <p class="hero-copy" id="heroCopy"></p>
+      <div class="hero-sign">with all my love ♡</div>
+    </section>
+
+    <!-- Photo Collages -->
+    <section class="photo-stage" aria-label="Foto kenangan">
+      <div class="photo a">
+        <img src="https://c.termai.cc/i151/HG8F0jc.jpg" alt="Kenangan satu">
+        <label>my favorite smile</label>
+      </div>
+      <div class="photo b">
+        <img src="https://c.termai.cc/i116/LUUgYDN.jpg" alt="Kenangan dua">
+        <label>you & me ♡</label>
+      </div>
+      <div class="photo c">
+        <img src="https://c.termai.cc/i187/dT1Qbg.jpg" alt="Kenangan tiga">
+        <label>little moments</label>
+      </div>
+    </section>
+
+    <!-- Journal Section -->
+    <section class="journal">
+      <div class="journal-head">
+        <div class="tiny">OUR LITTLE LOVE JOURNAL</div>
+        <h3>Empat hal untuk kamu</h3>
+        <p>Bukan sekadar ucapan ulang tahun.<br>Ada sedikit isi hati yang mau aku bagi. 💌</p>
+      </div>
+
+      <div class="chapters">
+        <button class="chapter" data-chapter="letter">
+          <span class="num">A LETTER</span>
+          <span class="emoji">💌</span>
+          <strong>Surat kecilku</strong>
+          <small>Yang mungkin jarang aku ucapkan langsung.</small>
+        </button>
+
+        <button class="chapter" data-chapter="reasons">
+          <span class="num">WHY YOU</span>
+          <span class="emoji">🫶</span>
+          <strong>Kenapa kamu?</strong>
+          <small>Hal sederhana yang bikin aku jatuh hati.</small>
+        </button>
+
+        <button class="chapter" data-chapter="prayer">
+          <span class="num">MY PRAYER</span>
+          <span class="emoji">🌙</span>
+          <strong>Doa untukmu</strong>
+          <small>Semoga hidup memelukmu dengan baik.</small>
+        </button>
+
+        <button class="chapter" data-chapter="promise">
+          <span class="num">A PROMISE</span>
+          <span class="emoji">🎀</span>
+          <strong>Satu janji kecil</strong>
+          <small>Hadiah yang nggak bisa dibungkus pita.</small>
+        </button>
+      </div>
+
+      <div class="final-note">
+        “Di antara banyak hal baik yang aku syukuri,<br>bertemu kamu adalah salah satunya.” ♡
+      </div>
+
+      <div class="page-footer">
+        DARI CEWEK YANG SELALU MENDOAKANMU · WITH LOVE
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DIALOG -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-top">
+        <span>OUR LITTLE LOVE JOURNAL</span>
+        <span class="modal-heart">♡</span>
+      </div>
+      <div class="modal-emoji" id="modalEmoji">💌</div>
+      <h4 id="modalTitle">Surat kecilku</h4>
+      <p id="modalText"></p>
+      <div class="modal-bottom">
+        <span>always, your girl ♡</span>
+        <button class="close-btn" id="closeModal">Kembali ke jurnal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX FOTO DIPERBESAR -->
+  <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Foto kenangan diperbesar">
+    <div class="photo-lightbox-inner">
+      <button class="photo-lightbox-close" id="closePhotoLightbox" aria-label="Tutup foto">×</button>
+      <img id="lightboxImage" src="" alt="Foto kenangan diperbesar">
+      <div class="photo-lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    /* ==========================================================================
+       CONFIGURABLE DATA
+       ========================================================================== */
+    const CONFIG = {
+      nama: "sayangku",
+      pembuka: "Selamat ulang tahun, cowok kesayanganku. 💙\n\nSemoga hari ini kamu merasa dicintai, dihargai, dan punya banyak alasan buat tersenyum. Aku mungkin nggak bisa membungkus semua rasa sayangku jadi hadiah, jadi aku bikin sudut kecil ini khusus untuk kamu.",
+
+      letter: "Happy birthday, sayang. 💌\n\nAku cuma mau bilang terima kasih karena sudah hadir di dunia ini, lalu entah bagaimana jadi seseorang yang begitu berarti buat aku.\n\nAku suka hal-hal sederhana tentang kita: obrolan random, candaan receh, cerita sebelum tidur, dan perasaan tenang saat tahu aku punya kamu untuk berbagi hari. Mungkin kelihatannya biasa, tapi buat aku semua itu berharga.\n\nDi hari ulang tahunmu ini, aku berharap kamu bisa melihat betapa hebatnya dirimu. Kamu nggak harus selalu kuat, nggak harus selalu tahu semua jawaban. Kamu boleh capek, boleh istirahat, dan boleh minta ditemani.\n\nAku bangga sama kamu dan semua usaha yang kamu lakukan, bahkan yang nggak dilihat orang lain. Selamat bertambah usia, cintaku. Semoga aku masih boleh ikut merayakan banyak ulang tahunmu berikutnya. I love you. ♡",
+
+      reasons: "Kenapa kamu? Karena rasanya jadi diri sendiri itu mudah saat sama kamu. 🫶\n\nKarena kamu bisa bikin aku senyum cuma lewat pesan singkat. Karena hal kecil yang kamu lakukan kadang tinggal lama di pikiranku. Karena aku suka cara kamu bercerita, cara kamu tertawa, dan caramu tetap berusaha walau hari sedang nggak ramah.\n\nAku nggak memilih kamu karena kamu harus sempurna. Aku menyukai kamu sebagai manusia yang nyata—punya kelebihan, kekurangan, mimpi, dan hari-hari yang melelahkan.\n\nKalau suatu saat kamu merasa kurang, ingat ya: kamu nggak perlu menjadi orang lain supaya pantas disayang. Buat aku, kamu yang sekarang sudah punya tempat istimewa. Dan aku masih punya banyak alasan untuk jatuh hati lagi, berkali-kali. 💙",
+
+      prayer: "Di usia barumu, aku berdoa semoga kamu selalu diberi kesehatan, hati yang lapang, pikiran yang tenang, dan langkah yang dimudahkan. 🌙\n\nSemoga rezekimu dilancarkan, cita-citamu didekatkan, dan setiap usaha baikmu menemukan hasil yang pantas. Semoga kamu dikelilingi orang-orang yang tulus dan dijauhkan dari hal-hal yang membuatmu kehilangan semangat.\n\nKalau nanti ada hari yang berat, semoga kamu ingat bahwa kamu nggak harus menyelesaikan semuanya sekaligus. Istirahat kalau lelah, bangkit pelan-pelan, dan tetap percaya pada dirimu sendiri.\n\nAku mungkin nggak bisa mengatur dunia supaya selalu baik sama kamu, tapi aku bisa terus mendoakanmu. Semoga banyak hal baik menemukan jalan pulang ke hidupmu. Aamiin. ♡",
+
+      promise: "Aku nggak mau menjanjikan hubungan yang selalu sempurna, karena kita sama-sama manusia dan pasti akan belajar. 🎀\n\nTapi aku ingin berusaha jadi seseorang yang bisa mendengarkanmu, menghargai perasaanmu, mendukung mimpi-mimpimu, dan ikut bahagia melihat kamu tumbuh.\n\nAku ingin kita bisa saling jujur, saling menguatkan, dan membicarakan hal sulit tanpa lupa bahwa kita berada di sisi yang sama. Aku ingin merayakan kemenanganmu, menemani saat kamu lelah, dan tetap mengingatkanmu untuk menjaga dirimu sendiri.\n\nHadiah kecil ini mungkin sederhana, tapi rasa sayang di baliknya sungguh-sungguh. Terima kasih sudah menjadi kamu. Selamat ulang tahun, sayangku. Kalau boleh, aku ingin terus membuat kenangan baik bersamamu—satu hari, satu cerita, satu pelukan pada satu waktu. 💙"
+    };
+
+    /* ==========================================================================
+       DOM ELEMENTS & INITIALIZATION
+       ========================================================================== */
+    const $ = id => document.getElementById(id);
+    
+    const intro = $("intro");
+    const main = $("main");
+    const music = $("music");
+    const modal = $("modal");
+
+    // Initialize Page Content
+    $("personName").textContent = CONFIG.nama;
+    $("heroCopy").textContent = CONFIG.pembuka;
+    document.title = `Untuk ${CONFIG.nama}, Rumah Hatiku ♡`;
+
+    /* ==========================================================================
+       EVENT HANDLERS & LOGIC
+       ========================================================================== */
+    let opened = false;
+
+    async function openSurprise() {
+      if (opened) return;
+      opened = true;
+
+      // Mulai animasi amplop terbuka
+      intro.classList.add("opening");
+
+      // Tunggu animasi surat selesai sebelum menampilkan halaman
+      await new Promise(resolve => setTimeout(resolve, 750));
+
+      intro.classList.add("dismiss");
+      main.classList.remove("hidden");
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          main.classList.add("visible");
+        });
+      });
+
+      try {
+        await music.play();
+        $("musicLabel").textContent = "MUSIK MENYALA";
+      } catch (error) {
+        $("musicLabel").textContent = "KETUK UNTUK MUSIK";
+      }
+
+      startHearts();
+    }
+
+    $("openBtn").addEventListener("click", openSurprise);
+    $("openTextBtn").addEventListener("click", openSurprise);
+
+    // Audio Control Toggle
+    $("musicBtn").addEventListener("click", async () => {
+      if (music.paused) {
+        try {
+          await music.play();
+          $("musicLabel").textContent = "MUSIK MENYALA";
+          $("musicBtn").classList.remove("paused");
+        } catch (error) {
+          $("musicLabel").textContent = "AUDIO TIDAK TERSEDIA";
+        }
+      } else {
+        music.pause();
+        $("musicLabel").textContent = "MUSIK DIJEDA";
+        $("musicBtn").classList.add("paused");
+      }
+    });
+
+    // Chapter Modal Functionality
+    const chapters = {
+      letter: { emoji: "💌", title: "Surat kecilku", text: () => CONFIG.letter },
+      reasons: { emoji: "🫶", title: "Kenapa kamu?", text: () => CONFIG.reasons },
+      prayer: { emoji: "🌙", title: "Doa untukmu", text: () => CONFIG.prayer },
+      promise: { emoji: "🎀", title: "Satu janji kecil", text: () => CONFIG.promise }
+    };
+
+    let lastButton = null;
+
+    document.querySelectorAll("[data-chapter]").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = chapters[button.dataset.chapter];
+        if (!item) return;
+
+        lastButton = button;
+        $("modalEmoji").textContent = item.emoji;
+        $("modalTitle").textContent = item.title;
+        $("modalText").textContent = item.text();
+
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        $("closeModal").focus({ preventScroll: true });
+      });
+    });
+
+    function closeMessage() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if (lastButton) lastButton.focus({ preventScroll: true });
+    }
+
+    $("closeModal").addEventListener("click", closeMessage);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeMessage();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && modal.classList.contains("open")) closeMessage();
+    });
+
+    /* FITUR LIGHTBOX FOTO DIPERBESAR */
+    const photoLightbox = $("photoLightbox");
+    const lightboxImage = $("lightboxImage");
+    const lightboxCaption = $("lightboxCaption");
+    let lastPhoto = null;
+
+    document.querySelectorAll(".photo").forEach(photo => {
+      const img = photo.querySelector("img");
+      const label = photo.querySelector("label");
+
+      photo.setAttribute("role", "button");
+      photo.setAttribute("tabindex", "0");
+      photo.setAttribute("aria-label", `Perbesar foto: ${label?.textContent.trim() || img.alt}`);
+
+      function openPhoto() {
+        lastPhoto = photo;
+        lightboxImage.src = img.currentSrc || img.src;
+        lightboxImage.alt = img.alt || "Foto kenangan";
+        lightboxCaption.textContent = label?.textContent.trim() || img.alt || "Kenangan manis ♡";
+        photoLightbox.classList.add("open");
+        photoLightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        $("closePhotoLightbox").focus({ preventScroll: true });
+      }
+
+      photo.addEventListener("click", openPhoto);
+      photo.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openPhoto();
+        }
+      });
+    });
+
+    function closePhoto() {
+      photoLightbox.classList.remove("open");
+      photoLightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = modal.classList.contains("open") ? "hidden" : "";
+      lightboxImage.src = "";
+      if (lastPhoto) lastPhoto.focus({ preventScroll: true });
+    }
+
+    $("closePhotoLightbox").addEventListener("click", closePhoto);
+    photoLightbox.addEventListener("click", event => {
+      if (event.target === photoLightbox) closePhoto();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && photoLightbox.classList.contains("open")) closePhoto();
+    });
+
+    // Floating Hearts Animation
+    let heartTimer = null;
+
+    function startHearts() {
+      if (heartTimer) return;
+      heartTimer = setInterval(() => {
+        if (document.hidden) return;
+
+        const heart = document.createElement("span");
+        heart.className = "floating-heart";
+        heart.textContent = ["♡", "♥", "✧", "💙"][Math.floor(Math.random() * 4)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (12 + Math.random() * 13) + "px";
+        heart.style.animationDuration = (6 + Math.random() * 5) + "s";
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 12000);
+      }, 1300);
+    }
+  </script>
+</body>
+</html>
